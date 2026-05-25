@@ -61,12 +61,12 @@ const Navbar = () => {
         <div
           className={`navbar transition-all duration-300  ${
             isScrolled
-              ? "bg-zinc-900/80 backdrop-blur-xl border-white/10 border  shadow rounded-2xl"
+              ? "bg-zinc-900/80 backdrop-blur-md border-white/10 border shadow rounded-2xl"
               : "bg-transparent border-transparent"
           }`}
         >
           <div className="navbar-start">
-            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer">
+            <div className="flex items-center gap-2 sm:gap-3 cursor-pointer lg:ml-1">
               <img
                 src={Logo}
                 alt="RJC Aluminum Logo"
@@ -103,7 +103,7 @@ const Navbar = () => {
           </div>
           <div className="navbar-end">
             <div className="hidden lg:block ">
-              <a className="btn btn-soft btn-warning">Get Quote</a>
+              <a className="btn btn-soft rounded-box btn-warning lg:mr-1">Get Quote</a>
             </div>
           </div>
 

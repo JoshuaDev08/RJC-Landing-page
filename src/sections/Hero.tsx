@@ -28,7 +28,7 @@ const Hero = () => {
               </span>
             </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-tight font-bold">
               Crafted for{" "}
               <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
                 Your Space
@@ -54,13 +54,7 @@ const Hero = () => {
 
           {/* RIGHT SIDE */}
           <div className="w-full lg:w-1/2 h-[300px] sm:h-[400px] lg:h-[650px] flex items-center justify-center">
-            {/* 3D Container */}
-            <div className="w-full h-full rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden flex items-center justify-center">
-              {/* Temporary Placeholder */}
-              <p className="text-zinc-400 text-sm sm:text-base">
-                3D Furniture Showcase
-              </p>
-            </div>
+           
           </div>
         </div>
       </div>
