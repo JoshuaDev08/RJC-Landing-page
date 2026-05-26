@@ -15,15 +15,45 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [navY, setNavY] = useState(0);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      const currentScrollY = window.scrollY;
+  
+      setIsScrolled(currentScrollY > 0);
+  
+      const builderSection = document.querySelector("#builder");
+  
+      if (builderSection) {
+        const builderTop = builderSection.getBoundingClientRect().top;
+  
+        const reachedBuilder = builderTop <= 100;
+  
+        if (reachedBuilder) {
+          const scrollDiff = currentScrollY - lastScrollY;
+  
+          setNavY((prev) => {
+            let next = prev - scrollDiff;
+  
+            if (next < -120) next = -120;
+            if (next > 0) next = 0;
+  
+            return next;
+          });
+        } else {
+          setNavY(0);
+        }
+      }
+  
+      setLastScrollY(currentScrollY);
     };
-
-    window.addEventListener("scroll", handleScroll);
+  
+    window.addEventListener("scroll", handleScroll, { passive: true });
+  
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [lastScrollY]);
 
   const handleNavLinkClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -34,7 +64,7 @@ const Navbar = () => {
     const targetElement = document.querySelector(href);
 
     if (targetElement) {
-      const offset = 80;
+      const offset = 0;
       const elementPosition = targetElement.getBoundingClientRect().top;
 
       const offsetPosition = elementPosition + window.scrollY - offset;
@@ -52,8 +82,14 @@ const Navbar = () => {
     <>
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
+        animate={{
+          y: navY,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.1,
+          ease: "linear",
+        }}
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           isScrolled ? "pt-2 px-2 sm:px-4" : "px-0 pt-0"
         }`}
@@ -103,7 +139,9 @@ const Navbar = () => {
           </div>
           <div className="navbar-end">
             <div className="hidden lg:block ">
-              <a className="btn btn-soft rounded-box btn-warning lg:mr-1">Get Quote</a>
+              <a className="btn btn-soft rounded-box btn-warning lg:mr-1">
+                Get Quote
+              </a>
             </div>
           </div>
 

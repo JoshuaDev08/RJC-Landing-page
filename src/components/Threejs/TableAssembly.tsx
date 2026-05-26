@@ -11,58 +11,60 @@ const TableAssembly = () => {
   const clamp = (v: number, min: number, max: number) =>
     Math.min(Math.max(v, min), max);
 
-  const basePosition = new THREE.Vector3(2.8, 0.5, 0.5);
-  const centerPosition = new THREE.Vector3(0, 0, 0);
+  const heroPosition = new THREE.Vector3(2.8, 0.5, 0.5);
+  const aboutPosition = new THREE.Vector3(0, -1, -0.5);
 
   useFrame(() => {
     if (!groupRef.current) return;
-  
+
     const t = scrollProgress;
-  
+
     // -----------------------------
-    // POSITION — hero → center
+    // POSITION — right (hero) → left (about)
     // -----------------------------
-    const enterT = clamp(t / 0.6, 0, 1);
-  
-    const targetX = THREE.MathUtils.lerp(basePosition.x, 0, enterT);
-    const targetY = THREE.MathUtils.lerp(basePosition.y, 0, enterT);
-    const targetZ = THREE.MathUtils.lerp(basePosition.z, 0, enterT);
-  
+    const enterT = clamp(t / 0.9, 0, 1);
+
+    const targetX = THREE.MathUtils.lerp(
+      heroPosition.x,
+      aboutPosition.x,
+      enterT
+    );
+    const targetY = THREE.MathUtils.lerp(
+      heroPosition.y,
+      aboutPosition.y,
+      enterT
+    );
+    const targetZ = THREE.MathUtils.lerp(
+      heroPosition.z,
+      aboutPosition.z,
+      enterT
+    );
+
     groupRef.current.position.lerp(
       new THREE.Vector3(targetX, targetY, targetZ),
       0.1
     );
-  
+
     // -----------------------------
-    // ROTATION — full spin during entry
+    // ROTATION — 180° spin during transition
     // -----------------------------
     const targetRotation = THREE.MathUtils.lerp(0, Math.PI, enterT);
     groupRef.current.rotation.y +=
-      (targetRotation - groupRef.current.rotation.y) * 0.1;
-  
+      (targetRotation - groupRef.current.rotation.y) * 0.09;
+
     // -----------------------------
-    // SCALE — zoom in → peak at t=0.5 → zoom out to workspace size
-    // No hard snap, lerp handles it all
+    // SCALE — original → big → original (bell curve)
     // -----------------------------
     const baseScale = 0.4;
-    const focusScale = 0.55;
-    const workspaceScale = 1.0;
-  
-    let targetScale: number;
-  
-    if (t < 0.5) {
-      // zoom IN: t 0.0 → 0.5
-      const zoomInT = clamp(t / 0.5, 0, 1);
-      targetScale = THREE.MathUtils.lerp(baseScale, focusScale, zoomInT);
-    } else {
-      // zoom OUT all the way to workspace scale: t 0.5 → 1.0
-      const zoomOutT = clamp((t - 0.5) / 0.5, 0, 1);
-      targetScale = THREE.MathUtils.lerp(focusScale, workspaceScale, zoomOutT);
-    }
-  
+    const peakScale = 0.7;
+
+    // sin(t * PI) gives a smooth 0 → 1 → 0 arc over the full scroll
+    const bellT = Math.sin(enterT * Math.PI / 2); // Adjust frequency for faster/smoother scaling
+    const targetScale = THREE.MathUtils.lerp(baseScale, peakScale, bellT);
+
     groupRef.current.scale.lerp(
       new THREE.Vector3(targetScale, targetScale, targetScale),
-      0.1  // smooth — no snap
+      0.15
     );
   });
 

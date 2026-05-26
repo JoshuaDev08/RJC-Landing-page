@@ -4,16 +4,20 @@ import Hero from "./sections/Hero";
 import Builder from "./sections/Builder";
 import CanvaScene from "./components/Threejs/CanvaScene";
 
+type Section = "hero" | "builder";
+
 function App() {
+  const [section, setSection] = useState<Section>("hero");
+
   return (
     <div className="bg-base-100 min-h-screen">
       <Navbar />
-      <CanvaScene />
+      <CanvaScene section={section} />
       <div id="home">
         <Hero />
       </div>
       <div id="builder">
-        <Builder />
+        <Builder onSectionChange={setSection} />
       </div>
     </div>
   );

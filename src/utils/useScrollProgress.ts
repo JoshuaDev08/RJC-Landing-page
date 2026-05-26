@@ -6,10 +6,11 @@ export default function useScrollProgress(): number {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const height = window.innerHeight;
+      // total scrollable distance, not just one screen
+      const totalScrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
 
-      const p = scrollY / height;
-
+      const p = scrollY / totalScrollable;
       setProgress(Math.min(Math.max(p, 0), 1));
     };
 
