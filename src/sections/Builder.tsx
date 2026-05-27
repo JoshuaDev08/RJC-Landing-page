@@ -66,7 +66,6 @@ const Builder = ({ onSectionChange }: BuilderProps) => {
           life in real-time.
         </p>
       </motion.div>
-      <BuilderOverlay show={showContent} />
     </section>
   );
 };

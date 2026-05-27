@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="hero min-h-screen bg-gradient-to-br from-zinc-900 via-zinc-800 to-amber-950">
+    <section className="hero min-h-screen overflow-hidden bg-gradient-to-br from-zinc-900 via-zinc-800 to-amber-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-h-screen flex items-center pt-28 sm:pt-32 lg:pt-0">
         <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-12">
           {/* LEFT SIDE */}
@@ -53,10 +53,17 @@ const Hero = () => {
           </motion.div>
 
           {/* RIGHT SIDE */}
-          <div className="w-full lg:w-1/2 h-[300px] sm:h-[400px] lg:h-[650px] flex items-center justify-center">
-           
-          </div>
+          <div className="w-full lg:w-1/2 h-[300px] sm:h-[400px] lg:h-[650px] flex items-center justify-center"></div>
         </div>
+      </div>
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2"
+        >
+          <div className="w-1.5 h-1.5 bg-white/60 rounded-full"></div>
+        </motion.div>
       </div>
     </section>
   );

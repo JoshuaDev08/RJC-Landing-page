@@ -100,9 +100,7 @@ const BuilderOverlay = ({ show }: BuilderOverlayProps) => {
           Material
         </h2>
 
-        <h1 className="text-white text-2xl font-bold">
-          Stainless Steel
-        </h1>
+        <h1 className="text-white text-2xl font-bold">Stainless Steel</h1>
 
         <p className="text-zinc-400 text-sm mt-2">
           Premium powder-coated frame with matte finish.

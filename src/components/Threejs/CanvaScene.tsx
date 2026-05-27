@@ -3,6 +3,8 @@ import { OrbitControls, Environment } from "@react-three/drei";
 import TableAssembly from "./TableAssembly";
 import { useRef, useEffect } from "react";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import MaterialHotspot from "./MaterialHotspot";
+import { useState } from "react";
 
 type Section = "hero" | "builder";
 
@@ -11,6 +13,7 @@ interface CanvaSceneProps {
 }
 
 const CanvaScene = ({ section }: CanvaSceneProps) => {
+  const [selectedMaterial, setSelectedMaterial] = useState("Metal Base");
   const orbitRef = useRef<OrbitControlsImpl>(null);
 
   useEffect(() => {
@@ -28,8 +31,12 @@ const CanvaScene = ({ section }: CanvaSceneProps) => {
           intensity={section === "builder" ? 3 : 2}
         />
 
-        <TableAssembly />
-
+        <TableAssembly material={selectedMaterial} />
+        <MaterialHotspot
+          show={section === "builder"}
+          selectedMaterial={selectedMaterial}
+          onMaterialChange={setSelectedMaterial}
+        />
         <Environment preset="warehouse" />
 
         <OrbitControls
