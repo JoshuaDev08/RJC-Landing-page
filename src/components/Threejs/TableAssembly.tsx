@@ -3,21 +3,16 @@ import * as THREE from "three";
 import useScrollProgress from "../../utils/useScrollProgress";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { materialConfigs, glassMaterialConfigs } from "../../utils/materials";
 
 interface TableAssemblyProps {
   material: string;
+  glassMaterial : string;
 }
 
-const materialColors: Record<string, string> = {
-  "Stainless Steel": "#a8a9ad",
-  "Brushed Aluminum": "#b5b8b1",
-  "Matte Black":     "#1a1a1a",
-  "Brass":           "#b5a642",
-  "Metal Base":       "#4F4F4F",  
-};
-
-const TableAssembly = ({ material }: TableAssemblyProps) => {
-  const color = materialColors[material];
+const TableAssembly = ({ material, glassMaterial }: TableAssemblyProps) => {
+  const config  = materialConfigs[material];
+  const glassconfig  = glassMaterialConfigs[glassMaterial];
 
   const groupRef = useRef<THREE.Group>(null);
   const scrollProgress = useScrollProgress();
@@ -82,13 +77,10 @@ const TableAssembly = ({ material }: TableAssemblyProps) => {
     );
   });
 
-  console.log(color);
-  
-
   return (
     <group ref={groupRef} scale={0.4}>
-      <ModelPart path="/models/Foot.glb" position={[0, 0, 0]} color={color}/>
-      <ModelPart path="/models/Glass.glb" position={[0, 0.01, 0]} />
+      <ModelPart path="/models/Foot.glb" position={[0, 0, 0]} materialConfig={config}/>
+      <ModelPart path="/models/GlassNew.glb" position={[0, 0.05, 0]} glassMaterialConfig={glassconfig} />
     </group>
   );
 };

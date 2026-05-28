@@ -4,6 +4,9 @@ import TableAssembly from "./TableAssembly";
 import { useRef, useEffect } from "react";
 import { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import MaterialHotspot from "./MaterialHotspot";
+import WoodMaterialHotspot from "./WoodMaterialHotspot";
+import GlassMaterialHotspot from "./GlassMaterialHotspot";
+import InfoHotspot from "./InfoHotspot";
 import { useState } from "react";
 
 type Section = "hero" | "builder";
@@ -14,6 +17,7 @@ interface CanvaSceneProps {
 
 const CanvaScene = ({ section }: CanvaSceneProps) => {
   const [selectedMaterial, setSelectedMaterial] = useState("Metal Base");
+  const [selectedGlassMaterial, setSelectedGlassMaterial] = useState("Clear");
   const orbitRef = useRef<OrbitControlsImpl>(null);
 
   useEffect(() => {
@@ -31,11 +35,26 @@ const CanvaScene = ({ section }: CanvaSceneProps) => {
           intensity={section === "builder" ? 3 : 2}
         />
 
-        <TableAssembly material={selectedMaterial} />
+        <TableAssembly material={selectedMaterial} glassMaterial={selectedGlassMaterial} />
         <MaterialHotspot
           show={section === "builder"}
           selectedMaterial={selectedMaterial}
           onMaterialChange={setSelectedMaterial}
+        />
+        <WoodMaterialHotspot
+          show={section === "builder"}
+          selectedMaterial={selectedMaterial}
+          onMaterialChange={setSelectedMaterial}
+        />
+        <GlassMaterialHotspot
+          show={section === "builder"}
+          selectedGlassMaterial={selectedGlassMaterial}
+          onMaterialChange={setSelectedGlassMaterial}
+        />
+        <InfoHotspot
+          show={section === "builder"}
+          selectedGlassMaterial={selectedGlassMaterial}
+          selectedMaterial={selectedMaterial}
         />
         <Environment preset="warehouse" />
 

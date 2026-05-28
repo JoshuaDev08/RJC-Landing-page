@@ -1,4 +1,4 @@
-import { Html, Line } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import { motion } from "framer-motion";
 import { useFrame } from "@react-three/fiber";
 import { useRef, useState } from "react";
@@ -10,11 +10,14 @@ interface Props {
   selectedMaterial: string;
 }
 
-const START = new THREE.Vector3(1.3, -0.85, 0);
-const MID   = new THREE.Vector3(2.5, -1, 0);
-const END   = new THREE.Vector3(3.5, -0.5, 0);
+//Need to download the wood texture and add it to the public folder, then update the materialConfigs in src/utils/materials.ts to include it
+//https://ambientcg
 
-const MaterialHotspot = ({ show, onMaterialChange, selectedMaterial }: Props) => {
+const START = new THREE.Vector3(2, 1.4, 0);
+const MID   = new THREE.Vector3(2.5, 1.8, 1);
+const END   = new THREE.Vector3(3., 1.9, 0);
+
+const WoodMaterialHotspot = ({ show, onMaterialChange, selectedMaterial }: Props) => {
   const progress = useRef(0);
   const [showCard, setShowCard] = useState(false);
 
@@ -108,16 +111,16 @@ const MaterialHotspot = ({ show, onMaterialChange, selectedMaterial }: Props) =>
             transition={{ duration: 0.3, delay: 0.4 }}
             style={{
               position: "absolute",
-              bottom: "-100px",
+              bottom: "-120px",
               left: "12px",
               width: "290px",
               pointerEvents: "auto",
             }}
             className="bg-black/40 backdrop-blur-xl border border-warning/20 rounded-2xl p-5"
           >
-            <h3 className="text-warning">Base Types</h3>
+            <h3 className="text-warning">Wood Base Types</h3>
             <div className="flex flex-col gap-2 mt-2">
-              {["Metal Base", "Stainless Steel", "Brushed Aluminum", "Matte Black", "Rose Gold", "Gunmetal", "Gold"].map(
+              {["Walnut", "Oak", "Brushed Aluminum", "Ash", "Mahogany", "Pine", "Ebony"].map(
                 (material) => (
                   <label key={material} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -139,4 +142,4 @@ const MaterialHotspot = ({ show, onMaterialChange, selectedMaterial }: Props) =>
   );
 };
 
-export default MaterialHotspot;
+export default WoodMaterialHotspot;

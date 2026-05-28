@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import BuilderOverlay from "../components/BuilderOverlay";
 
 type Section = "hero" | "builder";
 
