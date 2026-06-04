@@ -21,37 +21,44 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-  
+
       setIsScrolled(currentScrollY > 0);
-  
+
       const builderSection = document.querySelector("#builder");
-  
+
       if (builderSection) {
         const builderTop = builderSection.getBoundingClientRect().top;
-  
+
         const reachedBuilder = builderTop <= 100;
-  
+
         if (reachedBuilder) {
           const scrollDiff = currentScrollY - lastScrollY;
-  
+
           setNavY((prev) => {
             let next = prev - scrollDiff;
-  
-            if (next < -120) next = -120;
-            if (next > 0) next = 0;
-  
+
+            // 👇 allow it to recover when scrolling UP
+            if (scrollDiff < 0) {
+              next = Math.min(0, prev - scrollDiff); // scroll up → show
+            }
+
+            // keep hidden limit when scrolling down
+            if (scrollDiff > 0) {
+              next = Math.max(-120, prev - scrollDiff);
+            }
+
             return next;
           });
         } else {
           setNavY(0);
         }
       }
-  
+
       setLastScrollY(currentScrollY);
     };
-  
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-  
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
