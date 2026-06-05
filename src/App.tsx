@@ -4,8 +4,9 @@ import Hero from "./sections/Hero";
 import Builder from "./sections/Builder";
 import CanvaScene from "./components/Threejs/CanvaScene";
 import Projects from "./sections/Projects";
+import Whychooseus from "./sections/Whychooseus";
 
-type Section = "hero" | "builder";
+type Section = "hero" | "builder" | "projects";
 
 function App() {
   const [section, setSection] = useState<Section>("hero");
@@ -24,6 +25,7 @@ function App() {
         <div id="projects" >
           <Projects />
         </div>
+          <Whychooseus />
       </div>
     </div>
   );

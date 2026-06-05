@@ -9,7 +9,7 @@ import GlassMaterialHotspot from "./GlassMaterialHotspot";
 import InfoHotspot from "./InfoHotspot";
 import { useState } from "react";
 
-type Section = "hero" | "builder";
+type Section = "hero" | "builder" | "projects";
 
 interface CanvaSceneProps {
   section: Section;
@@ -26,6 +26,11 @@ const CanvaScene = ({ section }: CanvaSceneProps) => {
     }
   }, [section]);
 
+  const shouldRender =
+    section === "hero" || section === "builder" || section === 'projects' ;
+
+  if (!shouldRender) return null;
+
   return (
     <div className="fixed inset-0 z-10">
       <Canvas camera={{ position: [5, 3, 5], fov: 45 }}>
@@ -35,7 +40,10 @@ const CanvaScene = ({ section }: CanvaSceneProps) => {
           intensity={section === "builder" ? 3 : 2}
         />
 
-        <TableAssembly material={selectedMaterial} glassMaterial={selectedGlassMaterial} />
+        <TableAssembly
+          material={selectedMaterial}
+          glassMaterial={selectedGlassMaterial}
+        />
         <MaterialHotspot
           show={section === "builder"}
           selectedMaterial={selectedMaterial}

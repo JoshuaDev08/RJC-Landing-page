@@ -8,11 +8,17 @@ import { materialConfigs, glassMaterialConfigs } from "../../utils/materials";
 interface TableAssemblyProps {
   material: string;
   glassMaterial: string;
+  active?: boolean; // ✅ NEW FLAG
 }
 
-const TableAssembly = ({ material, glassMaterial }: TableAssemblyProps) => {
+const TableAssembly = ({
+  material,
+  glassMaterial,
+  active = true,
+}: TableAssemblyProps) => {
   const config = materialConfigs[material];
   const glassconfig = glassMaterialConfigs[glassMaterial];
+
   const { camera } = useThree();
 
   const groupRef = useRef<THREE.Group>(null);
@@ -24,8 +30,11 @@ const TableAssembly = ({ material, glassMaterial }: TableAssemblyProps) => {
   const heroPosition = new THREE.Vector3(2.8, 0.5, 0.5);
   const aboutPosition = new THREE.Vector3(0, -1, -0.5);
 
-
   useFrame(() => {
+    // -----------------------------
+    // ❌ STOP EVERYTHING IF NOT ACTIVE
+    // -----------------------------
+    if (!active) return;
     if (!groupRef.current) return;
 
     const t = scrollProgress;
@@ -35,9 +44,8 @@ const TableAssembly = ({ material, glassMaterial }: TableAssemblyProps) => {
     // -----------------------------
     const enterT = clamp(t / 0.28, 0, 1);
 
-
     // -----------------------------
-    // POSITION — right → left
+    // POSITION
     // -----------------------------
     const targetX = THREE.MathUtils.lerp(
       heroPosition.x,
@@ -63,47 +71,36 @@ const TableAssembly = ({ material, glassMaterial }: TableAssemblyProps) => {
     );
 
     // -----------------------------
-    // ROTATION — 180° spin
+    // ROTATION
     // -----------------------------
     const targetRotation = THREE.MathUtils.lerp(0, Math.PI, enterT);
 
     groupRef.current.rotation.y +=
       (targetRotation - groupRef.current.rotation.y) * 0.06;
 
-    // ❌ REMOVED broken exit rotation (it was overriding itself)
-
     // -----------------------------
-    // SCALE — bell curve
+    // SCALE
     // -----------------------------
     const baseScale = 0.4;
     const peakScale = 0.7;
 
     const bellT = Math.sin((enterT * Math.PI) / 2);
 
-    const targetScale = THREE.MathUtils.lerp(
-      baseScale,
-      peakScale,
-      bellT
-    );
+    const targetScale = THREE.MathUtils.lerp(baseScale, peakScale, bellT);
 
     groupRef.current.scale.lerp(
-      new THREE.Vector3(
-        targetScale,
-        targetScale,
-        targetScale
-      ),
+      new THREE.Vector3(targetScale, targetScale, targetScale),
       0.15
     );
 
     // -----------------------------
-    // CAMERA — move to front on exitT
+    // CAMERA MOVEMENT
     // -----------------------------
     const frontCameraPos = new THREE.Vector3(0, 0.5, 3);
     const backCameraPos = new THREE.Vector3(5, 3, 5);
-    
-    // 0 → 1 → 0 behavior based on scroll
+
     const cameraT = clamp((t - 0.48) / 0.38, 0, 1);
-    
+
     camera.position.lerp(
       new THREE.Vector3(
         THREE.MathUtils.lerp(backCameraPos.x, frontCameraPos.x, cameraT),
@@ -112,7 +109,7 @@ const TableAssembly = ({ material, glassMaterial }: TableAssemblyProps) => {
       ),
       0.12
     );
-    
+
     camera.lookAt(0, 0, 0);
   });
 

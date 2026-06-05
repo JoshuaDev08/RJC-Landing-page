@@ -110,7 +110,7 @@ const InfoHotspot = ({
 
       <mesh ref={dotRef} visible={false}>
         <sphereGeometry args={[0.06, 16, 16]} />
-        <meshBasicMaterial color="#facc15" />
+        <meshBasicMaterial color="#facc15" /> 
       </mesh>
 
       {showCard && (
