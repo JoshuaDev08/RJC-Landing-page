@@ -5,6 +5,7 @@ import Builder from "./sections/Builder";
 import CanvaScene from "./components/Threejs/CanvaScene";
 import Projects from "./sections/Projects";
 import Whychooseus from "./sections/Whychooseus";
+import ProcessTimeline from "./sections/ProcessTimeline";
 
 type Section = "hero" | "builder" | "projects";
 
@@ -15,17 +16,20 @@ function App() {
     <div className="bg-base-100 min-h-screen">
       <Navbar />
       <CanvaScene section={section} />
-      <div id="home" >
+      <div id="home">
         <Hero />
       </div>
       <div id="builder" className="relative">
         <Builder onSectionChange={setSection} />
       </div>
       <div className="relative z-20 bg-base-100">
-        <div id="projects" >
+        <div id="projects">
           <Projects />
         </div>
-          <Whychooseus />
+        <Whychooseus />
+        <div id="process">
+          <ProcessTimeline />
+        </div>
       </div>
     </div>
   );

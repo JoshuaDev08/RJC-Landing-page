@@ -3,7 +3,7 @@ import { productConfigs } from "../utils/FeaturedProjects";
 
 const Projects = () => {
   return (
-    <section className="hero min-h-screen overflow-hidden bg-gray-300">
+    <section className="hero min-h-screen overflow-hidden bg-white">
       <div className="container mx-auto px-2 sm:px-6 lg:px-8">
         {/* Heading */}
         <motion.div
